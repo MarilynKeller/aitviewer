@@ -1,6 +1,5 @@
 # # Code Developed by Marilyn Keller, marilyn.keller@tuebingen.mpg.de
 # # Do not share or distribute without permission of the author
-import c3d
 import numpy as np
 import tqdm
 
