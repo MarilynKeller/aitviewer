@@ -18,7 +18,9 @@ from aitviewer.utils import interpolate_positions, local_to_global, resample_pos
 from aitviewer.utils import to_numpy as c2c
 from aitviewer.utils import to_torch
 from aitviewer.utils.decorators import hooked
-from aitviewer.utils.so3 import aa2euler_numpy
+from aitviewer.utils.so3 import (
+    aa2euler_numpy,
+)
 from aitviewer.utils.so3 import aa2rot_torch as aa2rot
 from aitviewer.utils.so3 import (
     euler2aa_numpy,
