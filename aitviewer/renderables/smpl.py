@@ -18,7 +18,9 @@ from aitviewer.utils import interpolate_positions, local_to_global, resample_pos
 from aitviewer.utils import to_numpy as c2c
 from aitviewer.utils import to_torch
 from aitviewer.utils.decorators import hooked
-from aitviewer.utils.so3 import aa2euler_numpy
+from aitviewer.utils.so3 import (
+    aa2euler_numpy,
+)
 from aitviewer.utils.so3 import aa2rot_torch as aa2rot
 from aitviewer.utils.so3 import (
     euler2aa_numpy,
@@ -157,18 +159,11 @@ class SMPLSequence(Node):
 
         # First convert the relative joint angles to global joint angles in rotation matrix form.
         if self.smpl_layer.model_type != "flame":
-            if self.smpl_layer.model_type != "mano":
-                global_oris = local_to_global(
-                    torch.cat([self.poses_root, self.poses_body, self.poses_left_hand, self.poses_right_hand], dim=-1),
-                    self.skeleton[:, 0],
-                    output_format="rotmat",
-                )
-            else:
-                global_oris = local_to_global(
-                    torch.cat([self.poses_root, self.poses_body], dim=-1),
-                    self.skeleton[:, 0],
-                    output_format="rotmat",
-                )
+            global_oris = local_to_global(
+                torch.cat([self.poses_root, self.poses_body], dim=-1),
+                self.skeleton[:, 0],
+                output_format="rotmat",
+            )
             global_oris = c2c(global_oris.reshape((self.n_frames, -1, 3, 3)))
         else:
             global_oris = np.tile(np.eye(3), self.joints.shape[:-1])[np.newaxis]
