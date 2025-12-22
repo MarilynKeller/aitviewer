@@ -298,7 +298,7 @@ def compute_union_of_bounds(nodes):
     if len(nodes) == 0:
         return np.zeros((3, 2))
 
-    bounds = np.array([[np.inf, np.NINF], [np.inf, np.NINF], [np.inf, np.NINF]])
+    bounds = np.array([[np.inf, -np.inf], [np.inf, -np.inf], [np.inf, -np.inf]])
     for n in nodes:
         child = n.bounds
         bounds[:, 0] = np.minimum(bounds[:, 0], child[:, 0])
@@ -310,7 +310,7 @@ def compute_union_of_current_bounds(nodes):
     if len(nodes) == 0:
         return np.zeros((3, 2))
 
-    bounds = np.array([[np.inf, np.NINF], [np.inf, np.NINF], [np.inf, np.NINF]])
+    bounds = np.array([[np.inf, -np.inf], [np.inf, -np.inf], [np.inf, -np.inf]])
     for n in nodes:
         child = n.current_bounds
         bounds[:, 0] = np.minimum(bounds[:, 0], child[:, 0])
