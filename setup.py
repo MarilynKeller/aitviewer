@@ -57,7 +57,7 @@ setup(
         "visualization",
     ],
     platforms=["any"],
-    python_requires=">=3.7,<3.11",
+    python_requires=">=3.7",
     install_requires=requirements,
     project_urls={
         "Documentation": "https://eth-ait.github.io/aitviewer/",
