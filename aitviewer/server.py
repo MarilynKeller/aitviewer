@@ -13,6 +13,7 @@ from aitviewer.renderables.arrows import Arrows
 from aitviewer.renderables.lines import Lines
 from aitviewer.renderables.meshes import Meshes
 from aitviewer.renderables.rigid_bodies import RigidBodies
+from aitviewer.renderables.skeletons import Skeletons
 from aitviewer.renderables.smpl import SMPLSequence
 from aitviewer.renderables.spheres import Spheres
 from aitviewer.scene.node import Node
@@ -117,6 +118,9 @@ class ViewerServer:
 
         elif type == Message.RIGID_BODIES:
             add(client, remote_uid, args, kwargs, RigidBodies)
+
+        elif type == Message.SKELETONS:
+            add(client, remote_uid, args, kwargs, Skeletons)
 
         elif type == Message.SMPL:
             layer_arg_names = {"model_type", "gender", "num_betas"}

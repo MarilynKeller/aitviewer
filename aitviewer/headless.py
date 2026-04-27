@@ -92,7 +92,7 @@ class HeadlessRenderer(Viewer):
         self.run_animations = False
 
         # Render frame.
-        self.render(0, 0, export=True)
+        self.on_render(0, 0, export=True)
 
         # Restore run animation and update last frame rendered time.
         self.run_animations = run_animations

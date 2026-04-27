@@ -94,7 +94,7 @@ def test_empty(viewer: Viewer):
 
 
 def add_cube(viewer: Viewer, pos):
-    cube = trimesh.load(os.path.join(RESOURCE_DIR, "cube.obj"), process=False)
+    cube = trimesh.load(os.path.join(RESOURCE_DIR, "cube.obj"), process=False, maintain_order=True)
     cube_mesh = Meshes(cube.vertices, cube.faces, name="Cube", position=pos, flat_shading=True)
     viewer.scene.add(cube_mesh)
 
@@ -139,7 +139,7 @@ def test_opencv_camera(viewer: Viewer):
 
 @reference()
 def test_vertex_face_colors(viewer: Viewer):
-    cube = trimesh.load(os.path.join(RESOURCE_DIR, "cube.obj"), process=False)
+    cube = trimesh.load(os.path.join(RESOURCE_DIR, "cube.obj"), process=False, maintain_order=True)
 
     face_colors = np.array(
         [
@@ -271,7 +271,7 @@ def test_vertex_face_colors(viewer: Viewer):
 
 @reference()
 def test_instancing(viewer: Viewer):
-    cube = trimesh.load(os.path.join(RESOURCE_DIR, "cube.obj"), process=False)
+    cube = trimesh.load(os.path.join(RESOURCE_DIR, "cube.obj"), process=False, maintain_order=True)
     p = np.linspace(np.array([-8, 0, 0]), np.array([8, 0, 0]), num=10)
     r = aa2rot_numpy(np.linspace([0, 0, 0], np.array([0, 2 * np.pi, 0]), num=10))
     s = np.linspace(0.4, 0.8, num=10)

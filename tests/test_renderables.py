@@ -48,7 +48,7 @@ def test_renderables(viewer: Viewer):
 
 @reference()
 def test_obj(viewer: Viewer):
-    cube = trimesh.load(os.path.join(RESOURCE_DIR, "cube.obj"), process=False)
+    cube = trimesh.load(os.path.join(RESOURCE_DIR, "cube.obj"), process=False, maintain_order=True)
     cube_mesh = Meshes(
         cube.vertices,
         cube.faces,

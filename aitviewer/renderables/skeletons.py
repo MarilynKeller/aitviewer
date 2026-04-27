@@ -136,3 +136,19 @@ class Skeletons(Node):
         self.material.color = color
         self.spheres.color = color
         self.lines.color = color
+
+    def update_frames(self, joint_positions, frames):
+        self.joint_positions[frames] = joint_positions
+        self.redraw()
+
+    def add_frames(self, joint_positions):
+        if len(joint_positions.shape) == 2:
+            joint_positions = joint_positions[np.newaxis]
+
+        self.joint_positions = np.append(self.joint_positions, joint_positions, axis=0)
+        self.spheres.add_frames(self.joint_positions)
+        self.lines.add_frames(self.joint_positions[:, self.skeleton].reshape(len(self), -1, 3))
+
+    def remove_frames(self, frames):
+        self.joint_positions = np.delete(self.joint_positions, frames, axis=0)
+        self.redraw()

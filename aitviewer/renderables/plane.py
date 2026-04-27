@@ -192,7 +192,7 @@ class ChessboardPlane(Node):
 
         uvs = np.array([0, 0, 0, 1, 1, 0, 1, 1], dtype=np.float32)
 
-        return np.row_stack([p1, p0, p2, p3]), normals, uvs
+        return np.vstack([p1, p0, p2, p3]), normals, uvs
 
     # noinspection PyAttributeOutsideInit
     @Node.once

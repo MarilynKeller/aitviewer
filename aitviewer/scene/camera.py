@@ -286,7 +286,7 @@ class Camera(Node, CameraInterface):
         )
         self.add(self.frustum, show_in_hierarchy=False)
 
-        ori = np.eye(3, dtype=np.float)
+        ori = np.eye(3, dtype=np.float32)
         ori[:, 2] *= -1
         self.origin = RigidBodies(np.array([0.0, 0.0, 0.0])[np.newaxis], ori[np.newaxis])
         self.add(self.origin, show_in_hierarchy=False)

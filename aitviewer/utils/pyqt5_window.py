@@ -99,3 +99,18 @@ class PyQt5Window(Window):
 
     def _set_icon(self, icon_path: str) -> None:
         self._widget.setWindowIcon(QtGui.QIcon(str(icon_path)))
+
+    def resize(self, width: int, height: int) -> None:
+        """Replacement for Qt's ``resizeGL`` method.
+
+        Args:
+            width: New window width
+            height: New window height
+        """
+        self._width = width // self._widget.devicePixelRatio()
+        self._height = height // self._widget.devicePixelRatio()
+        self._buffer_width = width
+        self._buffer_height = height
+
+        # Make sure we notify the example about the resize
+        super(Window, self).resize(self._buffer_width, self._buffer_height)

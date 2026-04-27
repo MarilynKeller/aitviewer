@@ -13,6 +13,7 @@ class Message(enum.Enum):
     ARROWS = 5
     RIGID_BODIES = 6
     SMPL = 10
+    SKELETONS = 11
 
     # Messages used to modify existing nodes on the remote viewer.
     DELETE = 100

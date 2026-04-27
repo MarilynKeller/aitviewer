@@ -32,7 +32,7 @@ if __name__ == "__main__":
     b = np.concatenate((betas[:25], betas[125:]))
 
     # Create a mask with N frames.
-    enabled_frames = np.ones(N, dtype=np.bool8)
+    enabled_frames = np.ones(N, dtype=bool)
     # Set to zero the values at the indices of the 100 missing frames. There are now only M ones in the mask.
     enabled_frames[25:125] = 0
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # during frames that are enabled (where the mask value is one).
     p2 = np.concatenate((poses[:175], poses[275:]))
     b2 = np.concatenate((betas[:175], betas[275:]))
-    enabled_frames2 = np.ones(N, dtype=np.bool8)
+    enabled_frames2 = np.ones(N, dtype=bool)
     enabled_frames2[175:275] = 0
     smpl_layer2 = SMPLLayer(model_type="smpl", gender="neutral", device=C.device)
     smpl_seq2 = SMPLSequence(

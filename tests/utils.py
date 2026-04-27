@@ -51,7 +51,7 @@ def generate_images(viewer, count):
     viewer.run_animations = False
     # Render count frames, advancing the current frame at each iteration.
     for _ in range(count):
-        viewer.render(0, 0, export=True)
+        viewer.on_render(0, 0, export=True)
         yield viewer.get_current_frame_as_image()
         viewer.scene.next_frame()
 

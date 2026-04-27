@@ -526,7 +526,7 @@ class Viewer(moderngl_window.WindowConfig):
         if duration > 0 and log:
             print("Duration: {0:.2f}s @ {1:.2f} FPS".format(duration, self.window.frames / duration))
 
-    def render(self, time, frame_time, export=False, transparent_background=False):
+    def on_render(self, time, frame_time, export=False, transparent_background=False):
         """The main drawing function."""
 
         if self.run_animations:
@@ -1504,15 +1504,21 @@ class Viewer(moderngl_window.WindowConfig):
         self.renderer.resize(width, height)
         self.imgui.resize(width, height)
 
+    def on_resize(self, width: int, height: int):
+        return self.resize(width, height)
+
     def files_dropped_event(self, x: int, y: int, paths):
         for path in paths:
             base, ext = os.path.splitext(path)
             if ext == ".obj" or ext == ".ply":
                 import trimesh
 
-                obj = trimesh.load(path)
+                obj = trimesh.load(path, process=False)
                 obj_mesh = Meshes(obj.vertices, obj.faces, name=os.path.basename(base))
                 self.scene.add(obj_mesh)
+
+    def on_files_dropped_event(self, x: int, y: int, paths):
+        return self.files_dropped_event(x, y, paths)
 
     def key_event(self, key, action, modifiers):
         self.imgui.key_event(key, action, modifiers)
@@ -1619,12 +1625,18 @@ class Viewer(moderngl_window.WindowConfig):
         if action == self.wnd.keys.ACTION_RELEASE:
             pass
 
+    def on_key_event(self, key, action, modifiers):
+        return self.key_event(key, action, modifiers)
+
     def mouse_position_event(self, x, y, dx, dy):
         self._mouse_position = (x, y)
         self.imgui.mouse_position_event(x, y, dx, dy)
 
         if self.selected_mode == "inspect":
             self.mmi = self.mesh_mouse_intersection(x, y)
+
+    def on_mouse_position_event(self, x, y, dx, dy):
+        return self.mouse_position_event(x, y, dx, dy)
 
     def mouse_press_event(self, x: int, y: int, button: int):
         self.imgui.mouse_press_event(x, y, button)
@@ -1654,6 +1666,9 @@ class Viewer(moderngl_window.WindowConfig):
             self._mouse_down_position = np.array([x, y])
             self._mouse_moved = False
 
+    def on_mouse_press_event(self, x: int, y: int, button: int):
+        return self.mouse_press_event(x, y, button)
+
     def mouse_release_event(self, x: int, y: int, button: int):
         self.imgui.mouse_release_event(x, y, button)
 
@@ -1668,6 +1683,9 @@ class Viewer(moderngl_window.WindowConfig):
                     # If selection is enabled and nothing was selected clear the previous selection
                     if not self.lock_selection:
                         self.scene.select(None)
+
+    def on_mouse_release_event(self, x: int, y: int, button: int):
+        return self.mouse_release_event(x, y, button)
 
     def mouse_drag_event(self, x: int, y: int, dx: int, dy: int):
         self.imgui.mouse_drag_event(x, y, dx, dy)
@@ -1691,6 +1709,9 @@ class Viewer(moderngl_window.WindowConfig):
             ):
                 self._mouse_moved = True
 
+    def on_mouse_drag_event(self, x: int, y: int, dx: int, dy: int):
+        return self.mouse_drag_event(x, y, dx, dy)
+
     def mouse_scroll_event(self, x_offset: float, y_offset: float):
         self.imgui.mouse_scroll_event(x_offset, y_offset)
 
@@ -1700,8 +1721,14 @@ class Viewer(moderngl_window.WindowConfig):
                 self.reset_camera(v)
                 v.camera.dolly_zoom(np.sign(y_offset), self.wnd.modifiers.shift, self.wnd.modifiers.ctrl)
 
+    def on_mouse_scroll_event(self, x_offset: float, y_offset: float):
+        return self.mouse_scroll_event(x_offset, y_offset)
+
     def unicode_char_entered(self, char):
         self.imgui.unicode_char_entered(char)
+
+    def on_unicode_char_entered(self, char):
+        return self.unicode_char_entered(char)
 
     def save_current_frame_as_image(self, path, scale_factor=None, alpha=False):
         """Saves the current frame as an image to disk."""
@@ -1724,7 +1751,7 @@ class Viewer(moderngl_window.WindowConfig):
     def get_current_depth_image(self):
         return self.renderer.get_current_depth_image(self.scene.camera)
 
-    def on_close(self):
+    def close(self):
         """
         Clean up before destroying the window
         """
@@ -1740,6 +1767,9 @@ class Viewer(moderngl_window.WindowConfig):
         # have to recompile shaders with the current moderngl context.
         # See issue #12 https://github.com/eth-ait/aitviewer/issues/12
         clear_shader_cache()
+
+    def on_close(self):
+        return self.close()
 
     def take_screenshot(self, file_name=None, transparent_background=False):
         """Save the current frame to an image in the screenshots directory inside the export directory"""
@@ -1766,7 +1796,7 @@ class Viewer(moderngl_window.WindowConfig):
         self.run_animations = False
 
         # Render and save frame.
-        self.render(0, 0, export=True, transparent_background=transparent_background)
+        self.on_render(0, 0, export=True, transparent_background=transparent_background)
         self.save_current_frame_as_image(file_path, scale_factor, transparent_background)
 
         # Restore run animation and update last frame rendered time.
@@ -1927,7 +1957,7 @@ class Viewer(moderngl_window.WindowConfig):
             if rotate_camera:
                 self.scene.camera.rotate_azimuth(az_delta)
 
-            self.render(time, time + dt, export=True, transparent_background=transparent)
+            self.on_render(time, time + dt, export=True, transparent_background=transparent)
             img = self.get_current_frame_as_image(alpha=transparent)
 
             # Scale image by the scale factor.

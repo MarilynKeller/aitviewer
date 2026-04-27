@@ -9,14 +9,14 @@ INSTALL_PYQT6 = os.getenv("AITVIEWER_INSTALL_PYQT6", 0)
 
 requirements = [
     "torch>=1.6.0",
-    "numpy>=1.18,<2",
+    "numpy>=1.18",
     "opencv-contrib-python-headless>=4.5.1.48",
     "smplx",
-    "moderngl-window>=2.4.3",
-    "moderngl>=5.8.2,<6",
+    "moderngl-window==3.1.1",
+    "moderngl==5.12.0",
     "imgui==2.0.0",
     "tqdm>=4.60.0",
-    "trimesh>=3.9.15,<4",
+    "trimesh>=4.4,<5",
     "scipy>=1.5.2",
     "omegaconf>=2.1.1",
     "roma>=1.2.3",
@@ -57,9 +57,7 @@ setup(
         "visualization",
     ],
     platforms=["any"],
-
-    python_requires=">=3.7",
-
+    python_requires=">=3.9,<3.13",
     install_requires=requirements,
     project_urls={
         "Documentation": "https://eth-ait.github.io/aitviewer/",
