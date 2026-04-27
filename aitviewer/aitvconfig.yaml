@@ -1,5 +1,5 @@
 # Access SMPL models.
-smplx_models: "/is/cluster/fast/mkeller2/Data/body_model/smplx_models" #"/ps/project/rib_cage_breathing/TML/Data/smplx_models"
+smplx_models: "../../smpl_model_family/smplx_models"
 star_models: "../data/star_models"
 supr_models: "../data/supr_models"
 skel_models: "/is/cluster/work/mkeller2/Data/TML/Release/v1.0/skel_models_v1.1"
@@ -40,8 +40,7 @@ auto_set_floor: True
 auto_set_camera_target: True
 backface_culling: True
 background_color: [1.0, 1.0, 1.0, 1.0]
-window_type: "pyglet" # window_type: "pyqt5" 
-
+window_type: "pyqt6"
 
 # Viewer defaults to Y up, set to true for Z up.
 z_up: False
